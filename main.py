@@ -11,10 +11,10 @@ window.config(padx=50, pady=50)
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
-    '''
+    """
     Определяется функция `generate_password`, которая генерирует случайный пароль и помещает его в поле ввода `entry_pas`.
      Сгенерированный пароль также копируется в буфер обмена.
-    '''
+    """
     entry_pas.delete(0, END)
     password = "".join(set(choice(ascii_letters) for _ in range(randint(6, 9))) | set(
         choice(punctuation) for _ in range(randint(2, 3))) | set(choice(digits) for _ in range(randint(2, 3))))
@@ -24,12 +24,12 @@ def generate_password():
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
-    '''
+    """
     Определяется функция `save`, которая получает значения из полей ввода `entry_web`, `entry_mail` и `entry_pas`.
     Если поля `entry_web` и `entry_pas` не заполнены, выводится сообщение об ошибке.
     В противном случае, выводится окно с подтверждением сохранения данных.
     Если пользователь подтверждает сохранение, данные записываются в файл "password.txt", поля ввода очищаются.
-    '''
+    """
     website = entry_web.get()
     email = entry_mail.get()
     password = entry_pas.get()
