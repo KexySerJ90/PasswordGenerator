@@ -4,6 +4,7 @@ from string import ascii_letters, digits, punctuation
 from random import choice, randint
 import pyperclip
 from os import path
+from sys import argv
 
 
 window = Tk()
@@ -36,7 +37,7 @@ def save():
     email = entry_mail.get()
     password = entry_pas.get()
     # получаем путь к текущей директории
-    dir_path = path.dirname(path.realpath(__file__))
+    dir_path = path.dirname(path.realpath(argv[0]))
     # добавляем имя файла к пути
     file_path = path.join(dir_path, 'password.txt')
 
