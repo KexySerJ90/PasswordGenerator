@@ -3,6 +3,8 @@ from tkinter import messagebox
 from string import ascii_letters, digits, punctuation
 from random import choice, randint
 import pyperclip
+from os import path
+
 
 window = Tk()
 window.title('Password manager')
@@ -33,6 +35,10 @@ def save():
     website = entry_web.get()
     email = entry_mail.get()
     password = entry_pas.get()
+    # получаем путь к текущей директории
+    dir_path = path.dirname(path.realpath(__file__))
+    # добавляем имя файла к пути
+    file_path = path.join(dir_path, 'password.txt')
 
     if len(website) < 1 or len(password) < 1:
         messagebox.showinfo(title='Oops', message="Please don't leave any fields empty!")
@@ -40,7 +46,7 @@ def save():
         is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered: \nEmail: {email}"
                                                               f"\nPassword: {password} \nAre you sure?")
         if is_ok:
-            with open('password.txt', mode='a') as f:
+            with open(file_path, mode='a') as f:
                 f.write(f'{website}|{email}|{password}\n')
             entry_pas.delete(0, END)
             entry_web.delete(0, END)
