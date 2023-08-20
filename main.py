@@ -6,7 +6,6 @@ import pyperclip
 from os import path
 import json
 
-
 window = Tk()
 window.title('Password manager')
 window.config(padx=50, pady=50)
@@ -36,7 +35,7 @@ def save():
     website = entry_web.get()
     email = entry_mail.get()
     password = entry_pas.get()
-    new_data={
+    new_data = {
         website: {
             "email": email,
             "password": password
@@ -45,7 +44,7 @@ def save():
     # получаем путь к текущей директории
     dir_path = path.dirname(path.realpath(__file__))
     # добавляем имя файла к пути
-    file_path = path.join(dir_path, 'password.txt')
+    file_path = path.join(dir_path, 'password.json')
 
     if len(website) < 1 or len(password) < 1:
         messagebox.showinfo(title='Oops', message="Please don't leave any fields empty!")
@@ -55,11 +54,17 @@ def save():
         if is_ok:
             try:
                 with open(file_path) as f:
-                    data=json.load(f)
+                    data = json.load(f)
             except FileNotFoundError:
-
-            entry_pas.delete(0, END)
-            entry_web.delete(0, END)
+                with open(file_path, 'w') as f:
+                    json.dump(new_data, f, indent=4)
+            else:
+                data.update(new_data)
+                with open(file_path, 'w') as f:
+                    json.dump(data, f, indent=4)
+            finally:
+                entry_pas.delete(0, END)
+                entry_web.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
