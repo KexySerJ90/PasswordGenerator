@@ -46,7 +46,7 @@ def save():
     # добавляем имя файла к пути
     file_path = path.join(dir_path, 'password.json')
 
-    if len(website) < 1 or len(password) < 1:
+    if any(map(lambda x:len(x)<1,(website,email,password))):
         messagebox.showinfo(title='Oops', message="Please don't leave any fields empty!")
     else:
         is_ok = messagebox.askokcancel(title=website,
@@ -56,7 +56,7 @@ def save():
             try:
                 with open(file_path) as f:
                     data = json.load(f)
-                    if website in data and email in data[website]["email"]:
+                    if website in data:
                         messagebox.showinfo(title='Attention',
                                             message=f'Your new password for {website}: \n{password}')
             except FileNotFoundError:
