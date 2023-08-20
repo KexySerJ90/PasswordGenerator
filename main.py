@@ -58,7 +58,7 @@ def save():
                     data = json.load(f)
                     if website in data and email in data[website]["email"]:
                         messagebox.showinfo(title='Attention',
-                                            message=f'Your new password of {website} with {email}: {password}')
+                                            message=f'Your new password for {website}: \n{password}')
             except FileNotFoundError:
                 with open(file_path, 'w') as f:
                     json.dump(new_data, f, indent=4)
@@ -74,6 +74,7 @@ def save():
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 def find_password():
+
     website = entry_web.get()
     try:
         with open('password.json') as f:
