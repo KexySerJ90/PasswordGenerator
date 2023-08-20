@@ -4,6 +4,7 @@ from string import ascii_letters, digits, punctuation
 from random import choice, randint
 import pyperclip
 from os import path
+import json
 
 
 window = Tk()
@@ -35,6 +36,12 @@ def save():
     website = entry_web.get()
     email = entry_mail.get()
     password = entry_pas.get()
+    new_data={
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
     # получаем путь к текущей директории
     dir_path = path.dirname(path.realpath(__file__))
     # добавляем имя файла к пути
@@ -46,8 +53,11 @@ def save():
         is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered: \nEmail: {email}"
                                                               f"\nPassword: {password} \nAre you sure?")
         if is_ok:
-            with open(file_path, mode='a') as f:
-                f.write(f'{website}|{email}|{password}\n')
+            try:
+                with open(file_path) as f:
+                    data=json.load(f)
+            except FileNotFoundError:
+
             entry_pas.delete(0, END)
             entry_web.delete(0, END)
 
