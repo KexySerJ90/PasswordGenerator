@@ -56,6 +56,9 @@ def save():
             try:
                 with open(file_path) as f:
                     data = json.load(f)
+                    if website in data and email in data[website]["email"]:
+                        messagebox.showinfo(title='Attention',
+                                            message=f'Your new password of {website} with {email}: {password}')
             except FileNotFoundError:
                 with open(file_path, 'w') as f:
                     json.dump(new_data, f, indent=4)
