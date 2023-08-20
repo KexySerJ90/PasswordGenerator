@@ -49,8 +49,9 @@ def save():
     if len(website) < 1 or len(password) < 1:
         messagebox.showinfo(title='Oops', message="Please don't leave any fields empty!")
     else:
-        is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered: \nEmail: {email}"
-                                                              f"\nPassword: {password} \nAre you sure?")
+        is_ok = messagebox.askokcancel(title=website,
+                                       message=f"These are the details entered for {website}: \nEmail: {email}"
+                                               f"\nPassword: {password} \nAre you sure?")
         if is_ok:
             try:
                 with open(file_path) as f:
@@ -67,6 +68,24 @@ def save():
                 entry_web.delete(0, END)
 
 
+# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
+def find_password():
+    website = entry_web.get()
+    try:
+        with open('password.json') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        messagebox.showinfo(title='Error', message='File not create yet')
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title='Error', message=f"No details for {website} exists")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 canvas = Canvas(width=200, height=200)
@@ -81,8 +100,8 @@ Email_label.grid(column=0, row=2)
 Password_label = Label(text="Password:")
 Password_label.grid(column=0, row=3)
 
-entry_web = Entry(width=35)
-entry_web.grid(column=1, row=1, columnspan=2)
+entry_web = Entry(width=19)
+entry_web.grid(column=1, row=1)
 entry_web.focus()
 entry_mail = Entry(width=35)
 entry_mail.grid(column=1, row=2, columnspan=2)
@@ -91,7 +110,9 @@ entry_pas = Entry(width=19)
 entry_pas.grid(column=1, row=3)
 Generate_button = Button(text=" Generate Password", width=12, command=generate_password)
 Generate_button.grid(column=2, row=3)
-Add_button = Button(text="Add", width=36, command=save)
+Search_button = Button(text=" Search", width=12, command=find_password)
+Search_button.grid(column=2, row=1)
+Add_button = Button(text="Add", width=35, command=save)
 Add_button.grid(column=1, row=4, columnspan=2)
 
 window.mainloop()
