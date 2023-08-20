@@ -32,7 +32,7 @@ def save():
     В противном случае, выводится окно с подтверждением сохранения данных.
     Если пользователь подтверждает сохранение, данные записываются в файл "password.txt", поля ввода очищаются.
     """
-    website = entry_web.get()
+    website = entry_web.get().lower()
     email = entry_mail.get()
     password = entry_pas.get()
     new_data = {
@@ -74,8 +74,7 @@ def save():
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 def find_password():
-
-    website = entry_web.get()
+    website = entry_web.get().lower()
     try:
         with open('password.json') as f:
             data = json.load(f)
@@ -88,13 +87,6 @@ def find_password():
             messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
         else:
             messagebox.showinfo(title='Error', message=f"No details for {website} exists")
-
-# ---------------------------- LIST OF WEBSITE ------------------------------- #
-
-def lists():
-    with open('password.json') as f:
-        data = json.load(f)
-    messagebox.showinfo(title='Saved website', message=f'Your saved websites!\n{", ".join(data.keys())}')
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -125,6 +117,4 @@ Search_button = Button(text=" Search", width=12, command=find_password)
 Search_button.grid(column=2, row=1)
 Add_button = Button(text="Add", width=35, command=save)
 Add_button.grid(column=1, row=4, columnspan=2)
-Saved_button=Button(text="Saved",command=lists)
-Saved_button.grid(column=0, row=4)
 window.mainloop()
